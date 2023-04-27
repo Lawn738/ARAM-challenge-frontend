@@ -2,14 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import Sidebar from "./Sidebar";
 
-function App() {
+function Home() {
   
   return (
-    <div className="App">
-      {Sidebar()}
+    <div>
+      <h1> This is the Home page </h1>
     </div>
-    
   );
 }
 
-export default App;
+export default Home;
