@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 function Challenge() {
     const [champions, setChampions] = useState([]);
     const [championList, setChampionList] = useState([]);
-    const [url, setUrl] = useState("localhost:8080/api/challengelists");
+    const [url, setUrl] = useState("lawn.ddns.net:8080/api/challengelists");
     const [challengeId, setChallengeId] = useState("f03ab23a-0284-48e6-a6fd-2b4715bc90f5");
 
     function fetchChallenge(){
