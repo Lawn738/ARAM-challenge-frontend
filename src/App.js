@@ -1,14 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import Sidebar from "./Sidebar";
-import ChallengeTest from './ChallengeTest';
+import ChallengeTest from './Challenge';
 
 function App() {
   
   return (
     <div className="App">
       {Sidebar()}
-      <ChallengeTest />
     </div>
     
   );

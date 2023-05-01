@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,6 +20,8 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import Home from './Home';
 import Challenge from './Challenge';
+import ChallengeTest from './Challenge';
+import About from './About';
 
 const drawerWidth = 240;
 const drawerContentIcons = [
@@ -28,8 +30,21 @@ const drawerContentIcons = [
   <InfoIcon />,
 ];
 
+const pages = [
+  <Home />,
+  <Challenge />,
+  <About />,
+];
+
+
 
 export default function PermanentDrawerLeft() {
+
+    const [activePage, setActivePage] = useState([Home()]);
+
+  
+
+
   return (
     <div>
     <Box>
@@ -55,8 +70,8 @@ export default function PermanentDrawerLeft() {
           <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
           <Divider />
           <List>
-            {['Home', 'Challenge search', 'About'].map((text, index) => (
-              <ListItem key={index} disablePadding>
+            {['Home', 'Challenge', 'About'].map((text, index) => (
+              <ListItem key={index} disablePadding onClick={() => setActivePage(pages[index])}>
                 <ListItemButton>
                   <ListItemIcon>
                   {drawerContentIcons[index]}
@@ -69,7 +84,7 @@ export default function PermanentDrawerLeft() {
           <Divider />
         </Drawer>
       </Box>
-      {Challenge()}
+      {activePage}
     </Box>
     </div>
   );
