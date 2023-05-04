@@ -14,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InfoIcon from '@mui/icons-material/Info';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { Avatar } from '@mui/material';
+import { Avatar, Grid } from '@mui/material';
 import fingerguns from "./fingerguns640.png";
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import AddHomeIcon from '@mui/icons-material/AddHome';
@@ -46,46 +46,49 @@ export default function PermanentDrawerLeft() {
 
 
   return (
-    <div>
     <Box>
-      <Box sx={{ display: 'flex', border: '1px solid pink'}}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-        >
-        </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
+      <Box item>
+        <Box sx={{ display: 'flex'}}>
+          <AppBar
+            position="fixed"
+            sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+          >
+          </AppBar>
+          <Drawer
+            sx={{
               width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
-          <Divider />
-          <List>
-            {['Home', 'Challenge', 'About'].map((text, index) => (
-              <ListItem key={index} disablePadding onClick={() => setActivePage(pages[index])}>
-                <ListItemButton>
-                  <ListItemIcon>
-                  {drawerContentIcons[index]}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-        </Drawer>
-      </Box>
-      {activePage}
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                boxSizing: 'border-box',
+              },
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+            <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
+            <Divider />
+            <List>
+              {['Home', 'Challenge', 'About'].map((text, index) => (
+                <ListItem key={index} disablePadding onClick={() => setActivePage(pages[index])}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                    {drawerContentIcons[index]}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+            <Divider />
+          </Drawer>
+        </Box>
+        </Box>
+        <Box item>
+        <Box>
+          {activePage}
+        </Box>
+        </Box>
     </Box>
-    </div>
   );
 }
