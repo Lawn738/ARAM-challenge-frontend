@@ -46,7 +46,7 @@ export default function PermanentDrawerLeft() {
 
 
   return (
-    <Box>
+    <Grid>
       <Box item>
         <Box sx={{ display: 'flex'}}>
           <AppBar
@@ -89,6 +89,6 @@ export default function PermanentDrawerLeft() {
           {activePage}
         </Box>
         </Box>
-    </Box>
+    </Grid>
   );
 }

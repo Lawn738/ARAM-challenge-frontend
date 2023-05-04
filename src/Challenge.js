@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import { Grid, TextField } from '@mui/material';
 import { TableVirtuoso } from 'react-virtuoso';
 
 function Challenge() {
@@ -144,16 +145,27 @@ function Challenge() {
           }
 
             return (
-                <Box>
-              <Paper style={{ height: 1000, width: '100%' }}>
-                <TableVirtuoso
-                  data={rows}
-                  components={VirtuosoTableComponents}
-                  fixedHeaderContent={fixedHeaderContent}
-                  itemContent={rowContent}
-                />
-              </Paper>
-              </Box>
+            
+            <Box container>
+                <Box item>
+
+
+                    <Grid item>
+                        <TextField id="PlayerSearchField" label="Player Username" variant="standard" />
+                    </Grid>
+
+                    <Grid item>
+                        <Paper style={{ height: 1000, width: '100%' }}>
+                            <TableVirtuoso
+                            data={rows}
+                            components={VirtuosoTableComponents}
+                            fixedHeaderContent={fixedHeaderContent}
+                            itemContent={rowContent}
+                            />
+                        </Paper>
+                    </Grid>
+                </Box>
+            </Box>
             );
         
 }
