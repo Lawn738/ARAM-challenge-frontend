@@ -197,7 +197,7 @@ function Challenge() {
                                         }}>
                                             <TableCell>{champion.id}</TableCell>
                                             <TableCell>{champion.name}
-                                            <Avatar variant="square" height="200%" wdith="200%" src={require('./images/'+champion.name.replace(/\W|_/g, '')+'.png')}/>
+                                            <Avatar variant="square" height="200%" wdith="200%" src={require('./images/'+champion.name+'.png')}/>
                                             </TableCell>
                                             <TableCell>{champion.wins}{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
                                             <TableCell>{champion.losses}</TableCell>
