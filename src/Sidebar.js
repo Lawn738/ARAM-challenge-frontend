@@ -46,6 +46,7 @@ export default function PermanentDrawerLeft() {
 
 
   return (
+    <div>
     <Grid>
       <Box item>
         <Box sx={{ display: 'flex'}}>
@@ -90,5 +91,6 @@ export default function PermanentDrawerLeft() {
         </Box>
         </Box>
     </Grid>
+    </div>
   );
 }
