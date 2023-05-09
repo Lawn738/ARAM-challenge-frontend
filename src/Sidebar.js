@@ -20,10 +20,10 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import Home from './Home';
 import Challenge from './Challenge';
-import ChallengeTest from './Challenge';
 import About from './About';
-import NewChallenge from './pages/NewChallenge';
+
 import AddIcon from '@mui/icons-material/Add';
+import NewChallenge from './components/NewChallenge';
 
 const drawerWidth = 240;
 const drawerContentIcons = [
@@ -74,7 +74,7 @@ export default function PermanentDrawerLeft() {
             <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
             <Divider />
             <List>
-              {['Home', 'NewChallenge', 'Challenge', 'About'].map((text, index) => (
+              {['Home', 'New Challenge', 'Challenge', 'About'].map((text, index) => (
                 <ListItem key={index} disablePadding onClick={() => setActivePage(pages[index])}>
                   <ListItemButton>
                     <ListItemIcon>
