@@ -26,9 +26,10 @@ function Challenge() {
         setUrl] = useState("localhost:8080/api/challenge/");
     const [selectedChallengeId,
         setChallengeId] = useState("");
-
     const [open,
-        setOpen] = useState(false)
+        setOpen] = useState(false);
+        const [textFieldContent,
+          setFieldContent] = useState("")
 
     const handleClickOpen = () => {
         lookForChallenges()
@@ -141,8 +142,10 @@ function Challenge() {
                                     key={challenge}
                                     sx={{
                                     '&:last-child td, &:last-child th': {
-                                        border: 0
-                                    }
+                                        border: 0,
+                                    
+                                    },
+                                    
                                 }}>
                                     <TableCell>{challenge.challenge_id}</TableCell>
                                     <TableCell>{challenge.username}</TableCell>
@@ -164,7 +167,7 @@ function Challenge() {
                     <button onClick={handleClickOpen}>challenges by name</button>
 
                     <Grid item>
-                        <TextField id="PlayerSearchField" label="Player Username" variant="standard" onChange={e => setChallengeId(e.target.value)}/>
+                        <TextField id="PlayerSearchField" label="Player Username" variant="standard" onChange={e => setChallengeId(e.target.value)}>{textFieldContent}</TextField>
                     </Grid>
 
                     <Grid item>
@@ -193,7 +196,7 @@ function Challenge() {
                                             <TableCell>{champion.losses}</TableCell>
                                         </TableRow>
                                     ))
-}
+                                    }
                                 </TableBody>
                             </Table>
                         </Paper>
