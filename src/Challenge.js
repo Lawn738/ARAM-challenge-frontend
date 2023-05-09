@@ -10,27 +10,44 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { Grid, TextField } from '@mui/material';
-import { TableVirtuoso } from 'react-virtuoso';
 
 function Challenge() {
     const [champions, setChampions] = useState([]);
     const [championList, setChampionList] = useState([]);
-    const [url, setUrl] = useState("lawn.ddns.net:8080/api/challengelists");
-    const [challengeId, setChallengeId] = useState("f03ab23a-0284-48e6-a6fd-2b4715bc90f5");
+    const [url, setUrl] = useState("localhost:8080/api/challenge/");
+    const [challengeId, setChallengeId] = useState("0e0027dc-27f5-4f9d-8343-e1cfeebb94fe");
 
-    function fetchChallenge(){
-        axios.get(url + challengeId)
-        .then(res => {
-            setChampions(res.data.championlist.list);
-            setChampionList(champions.map((champion) => (
-                <div>
-                    <p key={champion}>{champion.name} --- {champion.wins} --- {champion.losses}</p>
-                </div>
-            )));
-          
-        })
-        .catch(error => console.err(error))
+    
+    function fetchChallenge2(){
+    //  const axios = require('axios');
+
+      let path = 'http://localhost:8080/api/challenge/'
+      let id = '0e0027dc-27f5-4f9d-8343-e1cfeebb94fe'
+      let completePath = path + id;
+
+      let config = {
+        maxBodyLength: Infinity,
+        url: completePath,
+        headers: { }
       };
+
+      console.log(config)
+
+      axios.get(completePath)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setChampions(response.data.championlist.list);
+        setChampionList(champions.map((champion) => (
+            <div>
+                <p key={champion.id}>{champion.name} --- {champion.wins} --- {champion.losses}</p>
+            </div>
+        )));
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
 
     let test;
         if (champions.length === 0) {
@@ -48,120 +65,47 @@ function Challenge() {
             )
         }
 
-        const sample = [
-            ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-            ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-            ['Eclair', 262, 16.0, 24, 6.0],
-            ['Cupcake', 305, 3.7, 67, 4.3],
-            ['Gingerbread', 356, 16.0, 49, 3.9],
-          ];
-          
-          function createData(id, dessert, calories, fat, carbs, protein) {
-            return { id, dessert, calories, fat, carbs, protein };
-          }
-          
-          const columns = [
-            {
-              width: 200,
-              label: 'Dessert',
-              dataKey: 'dessert',
-            },
-            {
-              width: 120,
-              label: 'Calories\u00A0(g)',
-              dataKey: 'calories',
-              numeric: true,
-            },
-            {
-              width: 120,
-              label: 'Fat\u00A0(g)',
-              dataKey: 'fat',
-              numeric: true,
-            },
-            {
-              width: 120,
-              label: 'Carbs\u00A0(g)',
-              dataKey: 'carbs',
-              numeric: true,
-            },
-            {
-              width: 120,
-              label: 'Protein\u00A0(g)',
-              dataKey: 'protein',
-              numeric: true,
-            },
-          ];
-          
-          const rows = Array.from({ length: 200 }, (_, index) => {
-            const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-            return createData(index, ...randomSelection);
-          });
-          
-          const VirtuosoTableComponents = {
-            Scroller: React.forwardRef((props, ref) => (
-              <TableContainer component={Paper} {...props} ref={ref} />
-            )),
-            Table: (props) => (
-              <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
-            ),
-            TableHead,
-            TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
-            TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
-          };
-          
-          function fixedHeaderContent() {
-            return (
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.dataKey}
-                    variant="head"
-                    align={column.numeric || false ? 'right' : 'left'}
-                    style={{ width: column.width }}
-                    sx={{
-                      backgroundColor: 'background.paper',
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            );
-          }
-          
-          function rowContent(_index, row) {
-            return (
-              <React.Fragment>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.dataKey}
-                    align={column.numeric || false ? 'right' : 'left'}
-                  >
-                    {row[column.dataKey]}
-                  </TableCell>
-                ))}
-              </React.Fragment>
-            );
-          }
+        console.log(fetchChallenge2())
 
             return (
             
+              
+
             <Box container>
                 <Box item>
 
+                <button onClick={fetchChallenge2}>testes</button>
 
                     <Grid item>
                         <TextField id="PlayerSearchField" label="Player Username" variant="standard" />
                     </Grid>
 
                     <Grid item>
-                        <Paper style={{ height: 1000, width: '100%' }}>
-                            <TableVirtuoso
-                            data={rows}
-                            components={VirtuosoTableComponents}
-                            fixedHeaderContent={fixedHeaderContent}
-                            itemContent={rowContent}
-                            />
+                        <Paper style={{ alignContent:'flex-end', height: 1000 }}>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>id</TableCell>
+                                <TableCell>name</TableCell>
+                                <TableCell>wins</TableCell>
+                                <TableCell>losses</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {
+                                champions.map(champion => (
+                                  <TableRow key={champion}
+                                  sx={{'&:last-child td, &:last-child th': { border:0 } }}
+                                  >
+                                    <TableCell>{champion.id}</TableCell>
+                                    <TableCell>{champion.name}</TableCell>
+                                    <TableCell>{champion.wins}</TableCell>
+                                    <TableCell>{champion.losses}</TableCell>
+                                  </TableRow>
+                                ))
+                              }
+                            </TableBody>
+                          </Table>
                         </Paper>
                     </Grid>
                 </Box>
