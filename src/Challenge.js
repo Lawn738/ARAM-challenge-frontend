@@ -197,7 +197,7 @@ function Challenge() {
                                             <TableCell>{champion.name}
                                             <Avatar variant="square" src={'http://ddragon.leagueoflegends.com/cdn/13.8.1/img/champion/'+champion.id.replace(/\W|_/g, '')+'.png'} />
                                             </TableCell>
-                                            <TableCell>{champion.wins}</TableCell>{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }
+                                            <TableCell>{champion.wins}{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
                                             <TableCell>{champion.losses}</TableCell>
                                         </TableRow>
                                     ))
