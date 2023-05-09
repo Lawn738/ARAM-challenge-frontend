@@ -12,6 +12,9 @@ import Box from '@mui/material/Box';
 import {Grid, TextField} from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
+import Avatar from '@mui/material/Avatar';
+import Checkbox from '@mui/material/Checkbox';
+import { Label } from '@mui/icons-material/Label';
 
 function Challenge() {
     const [challenges,
@@ -191,8 +194,10 @@ function Challenge() {
                                             }
                                         }}>
                                             <TableCell>{champion.id}</TableCell>
-                                            <TableCell>{champion.name}</TableCell>
-                                            <TableCell>{champion.wins}</TableCell>
+                                            <TableCell>{champion.name}
+                                            <Avatar variant="square" src={'http://ddragon.leagueoflegends.com/cdn/13.8.1/img/champion/'+champion.id.replace(/\W|_/g, '')+'.png'} />
+                                            </TableCell>
+                                            <TableCell>{champion.wins}</TableCell>{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }
                                             <TableCell>{champion.losses}</TableCell>
                                         </TableRow>
                                     ))
@@ -210,3 +215,4 @@ function Challenge() {
 }
 
 export default Challenge;
+//<Avatar variant="square" src={require('./images/'+champion.name.replace(/\W|_/g, '')+'.png')} />
