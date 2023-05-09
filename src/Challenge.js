@@ -15,6 +15,8 @@ import Dialog from '@mui/material/Dialog';
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
 import { Label } from '@mui/icons-material/Label';
+import checkmark from './images/checkmark.png';
+import blank from './images/blank.png';
 
 function Challenge() {
     const [challenges,
@@ -195,7 +197,7 @@ function Challenge() {
                                         }}>
                                             <TableCell>{champion.id}</TableCell>
                                             <TableCell>{champion.name}
-                                            <Avatar variant="square" src={'http://ddragon.leagueoflegends.com/cdn/13.8.1/img/champion/'+champion.id.replace(/\W|_/g, '')+'.png'} />
+                                            <Avatar variant="square" height="200%" wdith="200%" src={require('./images/'+champion.name.replace(/\W|_/g, '')+'.png')}/>
                                             </TableCell>
                                             <TableCell>{champion.wins}{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
                                             <TableCell>{champion.losses}</TableCell>
@@ -215,4 +217,6 @@ function Challenge() {
 }
 
 export default Challenge;
+//<Avatar variant="square" height="200%" wdith="200%" src={'http://ddragon.leagueoflegends.com/cdn/13.8.1/img/champion/'+champion.id.replace(/\W|_/g, '')+'.png'}/>
 //<Avatar variant="square" src={require('./images/'+champion.name.replace(/\W|_/g, '')+'.png')} />
+//{champion.wins > 0 ? <Avatar position="static" variant="square" src={checkmark}/> : <Avatar variant="square" src={blank}/> }
