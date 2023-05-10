@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function NewChallenge() {
+function ChallengeStats() {
   const [userInput, setUserInput] = useState("");
   const [userData, setUserData] = useState(null);
   const [userUrlData, setUserUrlData] = useState(null);
-  const [challengeId, setChallengeId] = useState(null);
 
   const fetchUserData = async () => {
     try {
@@ -30,14 +29,8 @@ function NewChallenge() {
   // fix url when ready
   const createNewChallenge = async () => {
     try {
-      await axios.get("http://localhost:8080/api/newchallenge/"+userData.name)
-      .then(res => {
-        const { name, summonerLevel} = res.data;
-        console.log(res.data.challenge_id);
-        setChallengeId(res.data.challenge_id);
-
-      })
-      
+      const response = await axios.get("http://localhost:8080/api/newchallenge/XDD"+userData.name);
+      setUserUrlData(response.data);
     } catch (error) {
       console.error(error);
       // Handle error here
@@ -47,14 +40,16 @@ function NewChallenge() {
   return (
     <div>
       {userData ? (
-        <div>
-          <div>
-            <p>User found</p>
-            <p>Username: {userData.name}</p>
-            <p>Summoner Level: {userData.summonerLevel}</p>
-            <button onClick={createNewChallenge}>Create new challenge for: {userData.name}</button>
-            <p>Your challenge id is: {challengeId}</p>
-          </div>
+        <div>¨
+          <p>User found</p>
+          <p>Username: {userData.name}</p>
+          <p>Summoner Level: {userData.summonerLevel}</p>
+          <button onClick={createNewChallenge}>Create new challenge for: {userData.name}</button>
+          {userUrlData && (
+            <div>
+              <p>User URL Data: {JSON.stringify(userUrlData)}</p>
+            </div>
+          )}
         </div>
       ) : (
         <div>
@@ -62,11 +57,11 @@ function NewChallenge() {
             Summoner name:
             <input type="text" value={userInput} onChange={userInputChange} />
           </label>
-          <button onClick={fetchUserData}>Fetch user</button>
+          <button onClick={fetchUserData}>Fetch Data</button>
         </div>
       )}
     </div>
   );
 }
 
-export default NewChallenge;
+export default ChallengeStats;

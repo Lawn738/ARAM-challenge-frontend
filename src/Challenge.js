@@ -131,6 +131,7 @@ function Challenge() {
     return (
 
         <div>
+            <h3>Enter your challenge id to view your challenge</h3>
                 <Dialog onClose={handleClose} open={open}>
                     <Paper>
                     <Table>
@@ -170,6 +171,7 @@ function Challenge() {
 
                     <button onClick={fetchChallenge}>spesific challenge</button>
                     <button onClick={handleClickOpen}>challenges by name</button>
+
 
                     <Grid item>
                         <TextField id="PlayerSearchField" label="Player Username" variant="standard" onChange={e => setChallengeId(e.target.value)}>{textFieldContent}</TextField>
