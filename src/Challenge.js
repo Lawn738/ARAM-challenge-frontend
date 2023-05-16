@@ -17,7 +17,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { Label } from '@mui/icons-material/Label';
 import checkmark from './images/checkmark.png';
 import blank from './images/blank.png';
-import App from "./App";
 
 function Challenge() {
     const [challenges,
@@ -29,7 +28,7 @@ function Challenge() {
     const [championList,
         setChampionList] = useState([]);
     const [url,
-        setUrl] = useState(App.serverurl+"/api/challenge/");
+        setUrl] = useState("localhost:8080/api/challenge/");
     const [selectedChallengeId,
         setChallengeId] = useState("");
     const [open,
@@ -46,7 +45,7 @@ function Challenge() {
     };
 
     function lookForChallenges() {
-        let path = App.serverurl+'/api/challengelists'
+        let path = 'http://localhost:8080/api/challengelists'
         let completePath = path;
 
         let config = {
@@ -79,7 +78,7 @@ function Challenge() {
     function fetchChallenge() {
         //  const axios = require('axios');
 
-        let path = App.serverurl+'/api/challenge/'
+        let path = 'http://localhost:8080/api/challenge/'
         let id2 = '2935f016-1a0c-4480-a65d-df1fa4052bc4'
         let id = selectedChallengeId
         let completePath = path + id;

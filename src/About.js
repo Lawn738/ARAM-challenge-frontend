@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 import Sidebar from "./Sidebar";
-import App from "./App";
 
 function About() {
   
