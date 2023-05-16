@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import App from "./App";
+import App from "./../App";
 
 function NewChallenge() {
   const [userInput, setUserInput] = useState("");
