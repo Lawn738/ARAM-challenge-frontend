@@ -3,6 +3,9 @@ import './App.css';
 import Sidebar from "./Sidebar";
 import ChallengeTest from './Challenge';
 
+const localurl = 'http://localhost:3000';
+const serverurl = 'http://lawn.ddns.net:3000';
+
 function App() {
   
   return (

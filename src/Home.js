@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import {Grid, TextField} from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
+import App from "./App";
 
 function Home() {
   
@@ -31,7 +32,7 @@ function Home() {
 function createChallenge() {
   //  const axios = require('axios');
 
-  let path = 'http://localhost:8080/api/newchallenge/'
+  let path = App.serverurl+'/api/newchallenge/'
   let completePath = path + username;
 
   let config = {

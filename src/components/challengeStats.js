@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import App from "./App";
 
 function ChallengeStats() {
   const [userInput, setUserInput] = useState("");
@@ -8,7 +9,7 @@ function ChallengeStats() {
 
   const fetchUserData = async () => {
     try {
-      await axios.get("http://localhost:8080/api/user/"+userInput)
+      await axios.get(App.serverurl+"/api/user/"+userInput)
       .then(res => {
         const { name, summonerLevel} = res.data;
         console.log(res);
@@ -29,7 +30,7 @@ function ChallengeStats() {
   // fix url when ready
   const createNewChallenge = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/newchallenge/XDD"+userData.name);
+      const response = await axios.get(App.serverurl+"/api/newchallenge/XDD"+userData.name);
       setUserUrlData(response.data);
     } catch (error) {
       console.error(error);

@@ -21,6 +21,7 @@ import AddHomeIcon from '@mui/icons-material/AddHome';
 import Home from './Home';
 import Challenge from './Challenge';
 import About from './About';
+import App from "./App";
 
 import AddIcon from '@mui/icons-material/Add';
 import NewChallenge from './components/NewChallenge';
