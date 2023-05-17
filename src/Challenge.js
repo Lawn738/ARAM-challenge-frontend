@@ -4,21 +4,25 @@ import React, {useEffect, useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import {Grid, TextField} from '@mui/material';
-import DialogTitle from '@mui/material/DialogTitle';
+
 import Dialog from '@mui/material/Dialog';
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
-import { Label } from '@mui/icons-material/Label';
-import checkmark from './images/checkmark.png';
-import blank from './images/blank.png';
+
 
 function Challenge() {
+    const [thisChallenge, setThisChallenge] = useState("");
+    const [totalWins, setTotalWins] = useState(0);
+    const [totalGames, setGames] = useState(0);
+    const [totalLosses, setTotalLosses] = useState(0);
+    const [challengeStartDate, setChallengeStartDate] = useState(0);
+    const [lastRefresh, setLastRefresh] = useState(0);
+
     const [challenges,
         setChallenges] = useState([]);
     const [challengeList,
@@ -96,6 +100,15 @@ function Challenge() {
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 setChampions(response.data.championlist.list);
+                setThisChallenge(response.data.challenge_id);
+                
+                // Set stats
+                setGames(response.data.totalGames);
+                setTotalWins(response.data.totalWins);
+                setTotalLosses(response.data.totalLosses);
+                setChallengeStartDate(new Date(response.data.startDate).toDateString());
+                setLastRefresh(new Date(response.data.lastRefresh).toDateString());
+
                 setChampionList(champions.map((champion) => (
                     <div>
                         <p key={champion.id}>{champion.name}
@@ -112,25 +125,40 @@ function Challenge() {
         console.log(fetchChallenge)
     }
 
-    let test;
-    if (champions.length === 0) {
-        test = (
-            <div>
-                <h1>Enter challenge_id and press fetch</h1>
-            </div>
-        )
-    } else {
-        test = (
-            <div>
-                <h3>Champion --- Wins --- Losses</h3>
-                {championList}
-            </div>
-        )
+    // Refresh challenge
+    function refreshChallenge() {
+        let path = 'http://localhost:8080/api/refreshchallenge/'
+        axios
+            .get(path+thisChallenge)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setChampions(response.data.championlist.list);
+                
+                // Set stats
+                setGames(response.data.totalGames);
+                setTotalWins(response.data.totalWins);
+                setTotalLosses(response.data.totalLosses);
+                setChallengeStartDate(new Date(response.data.startDate).toDateString());
+                setLastRefresh(new Date(response.data.lastRefresh).toDateString());
+
+                setChampionList(champions.map((champion) => (
+                    <div>
+                        <p key={champion.id}>{champion.name}
+                            --- {champion.wins}
+                            --- {champion.losses}</p>
+                    </div>
+                )));
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
 
-        <div>
+        <div> 
+            <h1>Challenge</h1>
             <h3>Enter your challenge id to view your challenge</h3>
                 <Dialog onClose={handleClose} open={open}>
                     <Paper>
@@ -169,18 +197,24 @@ function Challenge() {
             <Box container>
                 <Box item>
 
-                    <button onClick={fetchChallenge}>spesific challenge</button>
-                    <button onClick={handleClickOpen}>challenges by name</button>
-
 
                     <Grid item>
-                        <TextField id="PlayerSearchField" label="Player Username" variant="standard" onChange={e => setChallengeId(e.target.value)}>{textFieldContent}</TextField>
+                        <TextField id="PlayerSearchField" label="Challenge id" variant="standard" onChange={e => setChallengeId(e.target.value)}>{textFieldContent}</TextField>
                     </Grid>
+                    <button onClick={fetchChallenge}>Fetch challenge</button>
 
-                    <Grid item>
-                        <Paper>
+                    <Grid item>  
                             <Table>
                                 <TableHead>
+                                <div style={{textAlign: 'right'}}>
+                                    <h3>Challenge stats</h3>
+                                    <div>Start date: {challengeStartDate}</div>
+                                    <div>Total games: {totalGames}</div>
+                                    <div>Wins: {totalWins}</div>
+                                    <div>Losses: {totalLosses}</div>
+                                    <div>Last refresh: {lastRefresh}</div>
+                                    <button onClick={refreshChallenge}>Refresh challenge</button>
+                                </div>
                                     <TableRow>
                                         <TableCell>id</TableCell>
                                         <TableCell>name</TableCell>
@@ -201,14 +235,14 @@ function Challenge() {
                                             <TableCell>{champion.name}
                                             <Avatar variant="square" height="200%" wdith="200%" src={require('./images/'+champion.name+'.png')}/>
                                             </TableCell>
-                                            <TableCell>{champion.wins}{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
+                                            <TableCell>{champion.wins}{champion.wins = 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
                                             <TableCell>{champion.losses}</TableCell>
                                         </TableRow>
                                     ))
                                     }
                                 </TableBody>
                             </Table>
-                        </Paper>
+                     
                     </Grid>
                 </Box>
             </Box>
