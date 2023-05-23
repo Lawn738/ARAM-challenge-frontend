@@ -9,7 +9,7 @@ function NewChallenge() {
 
   const fetchUserData = async () => {
     try {
-      await axios.get("http://localhost:8080/api/user/"+userInput)
+      await axios.get("http://87.92.14.245:8080/api/user/"+userInput)
       .then(res => {
         const { name, summonerLevel} = res.data;
         console.log(res);
@@ -30,7 +30,7 @@ function NewChallenge() {
   // fix url when ready
   const createNewChallenge = async () => {
     try {
-      await axios.get("http://localhost:8080/api/newchallenge/"+userData.name)
+      await axios.get("http://87.92.14.245:8080/api/newchallenge/"+userData.name)
       .then(res => {
         const { name, summonerLevel} = res.data;
         console.log(res.data.challenge_id);
