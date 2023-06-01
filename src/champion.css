@@ -1,0 +1,44 @@
+.champion-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+}
+
+.champion-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: auto;
+}
+
+.champion-image {
+  filter: grayscale(100%);
+}
+
+.refresh-button {
+  background-color: deepskyblue;
+  color: black;
+  border-radius: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  height: 80px;
+  width: 150px;
+}
+
+.challenge-data-container {
+  background-color: rgb(240, 240, 247);
+  flex: 2;
+  border: 2px solid;
+  font-size: large;
+  margin-left: 25px;
+  margin-right: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-field {
+  width: 300px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  margin-right: auto;
+}

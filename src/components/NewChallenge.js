@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./newChallenge.css"; // Lisätty uusi CSS-tiedosto
 
 function NewChallenge() {
   const [userInput, setUserInput] = useState("");
@@ -9,17 +10,16 @@ function NewChallenge() {
 
   const fetchUserData = async () => {
     try {
-      await axios.get("http://localhost:8080/api/user/"+userInput)
-      .then(res => {
-        const { name, summonerLevel} = res.data;
-        console.log(res);
-        setUserData({ name, summonerLevel});
-
-      })
-
+      await axios
+        .get("http://localhost:8080/api/user/" + userInput)
+        .then((res) => {
+          const { name, summonerLevel } = res.data;
+          console.log(res);
+          setUserData({ name, summonerLevel });
+        });
     } catch (error) {
       console.error(error);
-      console.log("User not found")
+      console.log("User not found");
     }
   };
 
@@ -30,14 +30,13 @@ function NewChallenge() {
   // fix url when ready
   const createNewChallenge = async () => {
     try {
-      await axios.get("http://localhost:8080/api/newchallenge/"+userData.name)
-      .then(res => {
-        const { name, summonerLevel} = res.data;
-        console.log(res.data.challenge_id);
-        setChallengeId(res.data.challenge_id);
-
-      })
-      
+      await axios
+        .get("http://localhost:8080/api/newchallenge/" + userData.name)
+        .then((res) => {
+          const { name, summonerLevel } = res.data;
+          console.log(res.data.challenge_id);
+          setChallengeId(res.data.challenge_id);
+        });
     } catch (error) {
       console.error(error);
       // Handle error here
@@ -46,13 +45,16 @@ function NewChallenge() {
 
   return (
     <div>
+      <h1>New Challenge</h1>
       {userData ? (
         <div>
           <div>
             <p>User found</p>
             <p>Username: {userData.name}</p>
             <p>Summoner Level: {userData.summonerLevel}</p>
-            <button onClick={createNewChallenge}>Create new challenge for: {userData.name}</button>
+            <button onClick={createNewChallenge}>
+              Create new challenge for: {userData.name}
+            </button>
             <p>Your challenge id is: {challengeId}</p>
           </div>
         </div>
@@ -60,7 +62,12 @@ function NewChallenge() {
         <div>
           <label>
             Summoner name:
-            <input type="text" value={userInput} onChange={userInputChange} />
+            <input
+              type="text"
+              value={userInput}
+              onChange={userInputChange}
+              className="input-field" // Lisätty CSS-luokka
+            />
           </label>
           <button onClick={fetchUserData}>Fetch user</button>
         </div>
