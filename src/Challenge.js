@@ -1,258 +1,184 @@
-import './App.css';
-import axios from 'axios';
-import React, {useEffect, useState} from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import {Grid, TextField} from '@mui/material';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./champion.css";
 
-import Dialog from '@mui/material/Dialog';
-import Avatar from '@mui/material/Avatar';
-import Checkbox from '@mui/material/Checkbox';
+const Challenge = () => {
+  const [champions, setChampions] = useState([]);
+  const [rawChampionData, setRawChampionData] = useState([]);
+  const [inputText, setInputText] = useState("");
+  const [winFilter, setWinFilter] = useState("");
+  const [filterInput, setFilterInput] = useState("");
+  const [fetchStatus, setFetchStatus] = useState();
+  const [thisChallenge, setThisChallenge] = useState("");
+  const [uniqueWins, setUniqueWins] = useState(0);
+  const [challengeStats, setChallengeStats] = useState({
+    challenge_id: "",
+    username: "",
+    totalGames: 0,
+    totalWins: 0,
+    totalLosses: 0,
+    startDate: 0,
+    lastRefresh: 0,
+ });
 
+  //Fetch Challenge
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/challenge/${inputText}`
+      );
+      setFetchStatus(true);
+      const championList = Object.values(response.data.championlist.list);
+      const championObjects = championList.map((champion) => ({
+        id: champion.id,
+        wins: champion.wins,
+        losses: champion.losses,
+        name: champion.name,
+      }));
 
-function Challenge() {
-    const [thisChallenge, setThisChallenge] = useState("");
-    const [totalWins, setTotalWins] = useState(0);
-    const [totalGames, setGames] = useState(0);
-    const [totalLosses, setTotalLosses] = useState(0);
-    const [challengeStartDate, setChallengeStartDate] = useState(0);
-    const [lastRefresh, setLastRefresh] = useState(0);
+      // Update Challenge stats
+      setChallengeStats(() => ({
+        challenge_id: response.data.challenge_id,
+        username: response.data.username,
+        totalGames: response.data.totalGames,
+        totalWins: response.data.totalWins,
+        totalLosses: response.data.totalLosses,
+        startDate: (new Date(response.data.startDate).toDateString()),
+        lastRefresh: (new Date(response.data.startDate * 1000).toLocaleTimeString()),
+      }));
 
-    const [challenges,
-        setChallenges] = useState([]);
-    const [challengeList,
-        setChallengeList] = useState([]);
-    const [champions,
-        setChampions] = useState([]);
-    const [championList,
-        setChampionList] = useState([]);
-    const [url,
-        setUrl] = useState("87.92.14.245:8080/api/challenge/");
-    const [selectedChallengeId,
-        setChallengeId] = useState("");
-    const [open,
-        setOpen] = useState(false);
-        const [textFieldContent,
-          setFieldContent] = useState("")
+      setChampions(championObjects);
+      setRawChampionData(championObjects);
+      setThisChallenge(response.data.challenge_id);
 
-    const handleClickOpen = () => {
-        lookForChallenges()
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+      // Find out how many unique champions have at least 1 win
+      const championsWithWins = championList.filter(champion => champion.wins > 0);
+      setUniqueWins(championsWithWins.length);
 
-    function lookForChallenges() {
-        let path = 'http://87.92.14.245:8080/api/challengelists'
-        let completePath = path;
-
-        let config = {
-            maxBodyLength: Infinity,
-            url: completePath,
-            headers: {}
-        };
-
-        console.log(config)
-
-        axios
-            .get(completePath)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                setChallenges(response.data);
-                setChallengeList(challenges.map((challenge) => (
-                    <div>
-                        <p key={challenge.challenge_id}>{challenge.username},{challenge.startDate}</p>
-                    </div>
-                )));
-
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-        console.log(challenges.map((challenge) => (challenge.challenge_id + " " + challenge.username + " " + challenge.startDate)))
+    } catch (error) {
+      setFetchStatus(false);
+      console.error(error);
     }
+  };
 
-    function fetchChallenge() {
-        //  const axios = require('axios');
+  // Refresh Challenge
+  const refreshChallenge = async () => {
+    let path = "http://localhost:8080/api/refreshchallenge/";
+    try {
+      const response = await axios.get(path + thisChallenge);
+      setFetchStatus(true);
+      const championList = Object.values(response.data.championlist.list);
+      const championObjects = championList.map((champion) => ({
+        id: champion.id,
+        wins: champion.wins,
+        losses: champion.losses,
+        name: champion.name,
+      }));
 
-        let path = 'http://87.92.14.245:8080/api/challenge/'
-        let id2 = '2935f016-1a0c-4480-a65d-df1fa4052bc4'
-        let id = selectedChallengeId
-        let completePath = path + id;
+      // Update Challenge stats
+      setChallengeStats(() => ({
+        challenge_id: response.data.challenge_id,
+        username: response.data.username,
+        totalGames: response.data.totalGames,
+        totalWins: response.data.totalWins,
+        totalLosses: response.data.totalLosses,
+        startDate: (new Date(response.data.startDate).toDateString()),
+        lastRefresh: (new Date(response.data.startDate * 1000).toLocaleTimeString()),
+      }));
 
-        let config = {
-            maxBodyLength: Infinity,
-            url: completePath,
-            headers: {}
-        };
+      setChampions(championObjects);
+      setRawChampionData(championObjects);
 
-        console.log(config)
+      // Find out how many unique champions have at least 1 win
+      const championsWithWins = championList.filter(champion => champion.wins > 0);
+      setUniqueWins(championsWithWins.length);
 
-        axios
-            .get(completePath)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                setChampions(response.data.championlist.list);
-                setThisChallenge(response.data.challenge_id);
-                
-                // Set stats
-                setGames(response.data.totalGames);
-                setTotalWins(response.data.totalWins);
-                setTotalLosses(response.data.totalLosses);
-                setChallengeStartDate(new Date(response.data.startDate).toDateString());
-                setLastRefresh(new Date(response.data.lastRefresh).toDateString());
-
-                setChampionList(champions.map((champion) => (
-                    <div>
-                        <p key={champion.id}>{champion.name}
-                            --- {champion.wins}
-                            --- {champion.losses}</p>
-                    </div>
-                )));
-
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-        console.log(fetchChallenge)
+    } catch (error) {
+      setFetchStatus(false);
+      console.error(error);
     }
+  };
 
-    // Refresh challenge
-    function refreshChallenge() {
-        let path = 'http://87.92.14.245:8080/api/refreshchallenge/'
-        axios
-            .get(path+thisChallenge)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                setChampions(response.data.championlist.list);
-                
-                // Set stats
-                setGames(response.data.totalGames);
-                setTotalWins(response.data.totalWins);
-                setTotalLosses(response.data.totalLosses);
-                setChallengeStartDate(new Date(response.data.startDate).toDateString());
-                setLastRefresh(new Date(response.data.lastRefresh).toDateString());
+  const handleInputChange = (event) => {
+    setInputText(event.target.value);
+  };
 
-                setChampionList(champions.map((champion) => (
-                    <div>
-                        <p key={champion.id}>{champion.name}
-                            --- {champion.wins}
-                            --- {champion.losses}</p>
-                    </div>
-                )));
+  const filterInputChanged = (event) => {
+    setFilterInput(event.target.value);
+    const filteredChampions = champions.filter((champion) => champion.name = (filterInput));
+    setChampions(filteredChampions);
+  };
 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+  const filterByWins = () => {
+    const filteredChampions = champions.filter((champion) => champion.wins < 1);
+    setChampions(filteredChampions);
+  };
 
-    return (
+  const resetFilter = () => {
+    setChampions(rawChampionData);
+  };
 
-        <div> 
-            <h1>Challenge</h1>
-            <h3>Enter your challenge id to view your challenge</h3>
-                <Dialog onClose={handleClose} open={open}>
-                    <Paper>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>id</TableCell>
-                                <TableCell>name</TableCell>
-                                <TableCell>startdate</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {challenges.map(challenge => (
-                                <TableRow
-                                    key={challenge}
-                                    sx={{
-                                    '&:last-child td, &:last-child th': {
-                                        border: 0,
-                                    
-                                    },
-                                    
-                                }}>
-                                    <TableCell>{challenge.challenge_id}</TableCell>
-                                    <TableCell>{challenge.username}</TableCell>
-                                    <TableCell>{challenge.startDate}</TableCell>
-                                </TableRow>
-                            ))
-}
-                        </TableBody>
-                    </Table>
-                    <button onClick={handleClose}></button>
-                    </Paper>
-                </Dialog>
-
-
-            <Box container>
-                <Box item>
-
-
-                    <Grid item>
-                        <TextField id="PlayerSearchField" label="Challenge id" variant="standard" onChange={e => setChallengeId(e.target.value)}>{textFieldContent}</TextField>
-                    </Grid>
-                    <button onClick={fetchChallenge}>Fetch challenge</button>
-
-                    <Grid item>  
-                            <Table>
-                                <TableHead>
-                                <div style={{textAlign: 'right'}}>
-                                    <h3>Challenge stats</h3>
-                                    <div>Start date: {challengeStartDate}</div>
-                                    <div>Total games: {totalGames}</div>
-                                    <div>Wins: {totalWins}</div>
-                                    <div>Losses: {totalLosses}</div>
-                                    <div>Last refresh: {lastRefresh}</div>
-                                    <button onClick={refreshChallenge}>Refresh challenge</button>
-                                </div>
-                                    <TableRow>
-                                        <TableCell>id</TableCell>
-                                        <TableCell>name</TableCell>
-                                        <TableCell>wins</TableCell>
-                                        <TableCell>losses</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {champions.map(champion => (
-                                        <TableRow
-                                            key={champion}
-                                            sx={{
-                                            '&:last-child td, &:last-child th': {
-                                                border: 0
-                                            }
-                                        }}>
-                                            <TableCell>{champion.id}</TableCell>
-                                            <TableCell>{champion.name}
-                                            <Avatar variant="square" height="200%" wdith="200%" src={require('./images/'+champion.name+'.png')}/>
-                                            </TableCell>
-                                            <TableCell>{champion.wins}{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
-                                            <TableCell>{champion.losses}</TableCell>
-                                        </TableRow>
-                                    ))
-                                    }
-                                </TableBody>
-                            </Table>
-                     
-                    </Grid>
-                </Box>
-            </Box>
-
+  return (
+    <div>
+      <h1>Challenge</h1>
+      <div>
+        {fetchStatus === false && 
+          <p>Challenge not found. Check your challenge id.</p>
+        }
+      </div>
+      <input className="input-field" type="text" value={inputText} onChange={handleInputChange} />
+      <button onClick={() => fetchData()}>Fetch challenge</button> 
+      <div>
+        {fetchStatus === true && 
+        <div style={{display: "flex", flexDirection: 'row', marginRight: "20px", padding: "25px"}}>
+          <div className="challenge-data-container">
+            <h3>Challenge stats</h3>
+            <div>Username: {challengeStats.username}</div>
+            <div>Challenge started: {challengeStats.startDate}</div>
+            <div>Total games played: {challengeStats.totalGames}</div>
+            <div>Total wins: {challengeStats.totalWins}</div>
+            <div>Total losses: {challengeStats.totalLosses}</div>
+            <div>Winrate: {(challengeStats.totalWins / challengeStats.totalGames)*100}%</div>
+            <div>Challenge progress: {uniqueWins} / {rawChampionData.length}</div>
+          </div>
+          <div className="challenge-data-container">
+            <p>Refresh challenge</p>
+            <button className="refresh-button" onClick={() => refreshChallenge()}>Refresh</button>
+            <p>Last refresh: {challengeStats.lastRefresh}</p>
+         </div>
         </div>
-    );
-
-}
+        }
+      </div>
+      <div style={{margin: "10px"}}>
+        <input label="Filter champions" type="text" value={filterInput} onChange={filterInputChanged} />
+        <button onClick={() => filterByWins()}>Filter by wins</button>
+        <button onClick={() => resetFilter()}>Reset filters</button>
+      </div>
+      <div className="champion-grid">
+        {champions.map((champion) => (
+          <div key={champion.id} className="champion-item">
+            <div>
+              {champion.wins > 0 ? (
+                <img
+                    className="champion-image"
+                    src={require("./images/" + champion.name + ".png")}
+                    alt={champion.name}
+                />
+              ) : (
+                <img
+                  src={require("./images/" + champion.name + ".png")}
+                  alt={champion.name}
+                />
+              )}
+            </div>
+            <p>{champion.name}</p>
+            <p>Wins: {champion.wins}</p>
+            <p>Losses: {champion.losses}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default Challenge;
-//<Avatar variant="square" height="200%" wdith="200%" src={'http://ddragon.leagueoflegends.com/cdn/13.8.1/img/champion/'+champion.id.replace(/\W|_/g, '')+'.png'}/>
-//<Avatar variant="square" src={require('./images/'+champion.name.replace(/\W|_/g, '')+'.png')} />
-//{champion.wins > 0 ? <Avatar position="static" variant="square" src={checkmark}/> : <Avatar variant="square" src={blank}/> }
