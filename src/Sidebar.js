@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -51,26 +52,9 @@ export default function PermanentDrawerLeft() {
 
   return (
     <div>
-    <Grid>
-      <Box item>
-        <Box sx={{ display: 'flex'}}>
-          <AppBar
-            position="fixed"
-            sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-          >
-          </AppBar>
-          <Drawer
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              '& .MuiDrawer-paper': {
-                width: drawerWidth,
-                boxSizing: 'border-box',
-              },
-            }}
-            variant="permanent"
-            anchor="left"
-          >
+      <Grid>
+        <Grid>
+          <SwipeableDrawer variant="permanent" anchor="left">
             <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
             <Divider />
             <List>
@@ -86,15 +70,12 @@ export default function PermanentDrawerLeft() {
               ))}
             </List>
             <Divider />
-          </Drawer>
-        </Box>
-        </Box>
-        <Box item>
-        <Box>
-          {activePage}
-        </Box>
-        </Box>
-    </Grid>
+          </SwipeableDrawer>
+            </Grid>
+            <Grid>
+            {activePage}
+            </Grid>
+          </Grid>
     </div>
   );
 }
