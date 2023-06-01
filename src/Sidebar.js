@@ -52,8 +52,8 @@ export default function PermanentDrawerLeft() {
 
   return (
     <div>
-      <Grid>
-        <Grid>
+      <Grid container spacing={0}>
+        <Grid item xs={2}>
           <SwipeableDrawer variant="permanent" anchor="left">
             <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
             <Divider />
@@ -72,7 +72,7 @@ export default function PermanentDrawerLeft() {
             <Divider />
           </SwipeableDrawer>
             </Grid>
-            <Grid>
+            <Grid item xs={10}>
             {activePage}
             </Grid>
           </Grid>
