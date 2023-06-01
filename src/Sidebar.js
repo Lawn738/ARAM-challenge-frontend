@@ -22,6 +22,7 @@ import AddHomeIcon from '@mui/icons-material/AddHome';
 import Home from './Home';
 import Challenge from './Challenge';
 import About from './About';
+import Footer from './components/footer';
 
 import AddIcon from '@mui/icons-material/Add';
 import NewChallenge from './components/NewChallenge';
@@ -51,10 +52,18 @@ export default function PermanentDrawerLeft() {
 
 
   return (
-    <div>
+    <Box>
       <Grid container spacing={0}>
-        <Grid item xs={2}>
-          <SwipeableDrawer variant="permanent" anchor="left">
+        <Grid item xs={1}>
+        <Drawer open={true} 
+        sx={{
+          '& .MuiDrawer-paper': {
+            zIndex:'0'
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+      >
             <Toolbar><Avatar variant="square" src={fingerguns} /></Toolbar>
             <Divider />
             <List>
@@ -70,12 +79,13 @@ export default function PermanentDrawerLeft() {
               ))}
             </List>
             <Divider />
-          </SwipeableDrawer>
+          </Drawer>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={11}>
             {activePage}
             </Grid>
           </Grid>
-    </div>
+          <Footer />
+    </Box>
   );
 }
