@@ -66,7 +66,7 @@ function NewChallenge() {
               type="text"
               value={userInput}
               onChange={userInputChange}
-              className="input-field" // Lisätty CSS-luokka
+              className="input-field"
             />
           </label>
           <button onClick={fetchUserData}>Fetch user</button>

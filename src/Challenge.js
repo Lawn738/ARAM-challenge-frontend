@@ -32,7 +32,7 @@ function Challenge() {
     const [championList,
         setChampionList] = useState([]);
     const [url,
-        setUrl] = useState("localhost:8080/api/challenge/");
+        setUrl] = useState("87.92.14.245:8080/api/challenge/");
     const [selectedChallengeId,
         setChallengeId] = useState("");
     const [open,
@@ -49,7 +49,7 @@ function Challenge() {
     };
 
     function lookForChallenges() {
-        let path = 'http://localhost:8080/api/challengelists'
+        let path = 'http://87.92.14.245:8080/api/challengelists'
         let completePath = path;
 
         let config = {
@@ -82,7 +82,7 @@ function Challenge() {
     function fetchChallenge() {
         //  const axios = require('axios');
 
-        let path = 'http://localhost:8080/api/challenge/'
+        let path = 'http://87.92.14.245:8080/api/challenge/'
         let id2 = '2935f016-1a0c-4480-a65d-df1fa4052bc4'
         let id = selectedChallengeId
         let completePath = path + id;
@@ -127,7 +127,7 @@ function Challenge() {
 
     // Refresh challenge
     function refreshChallenge() {
-        let path = 'http://localhost:8080/api/refreshchallenge/'
+        let path = 'http://87.92.14.245:8080/api/refreshchallenge/'
         axios
             .get(path+thisChallenge)
             .then((response) => {
@@ -235,7 +235,7 @@ function Challenge() {
                                             <TableCell>{champion.name}
                                             <Avatar variant="square" height="200%" wdith="200%" src={require('./images/'+champion.name+'.png')}/>
                                             </TableCell>
-                                            <TableCell>{champion.wins}{champion.wins = 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
+                                            <TableCell>{champion.wins}{champion.wins > 0 ? <Checkbox disabled checked /> : <Checkbox disabled /> }</TableCell>
                                             <TableCell>{champion.losses}</TableCell>
                                         </TableRow>
                                     ))
