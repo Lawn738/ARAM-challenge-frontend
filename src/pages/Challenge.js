@@ -25,7 +25,7 @@ const Challenge = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/challenge/${inputText}`
+        `http://aramchallenge.com:8080/api/challenge/${inputText}`
       );
       setFetchStatus(true);
       const championList = Object.values(response.data.championlist.list);
@@ -63,7 +63,7 @@ const Challenge = () => {
 
   // Refresh Challenge
   const refreshChallenge = async () => {
-    let path = "http://localhost:8080/api/refreshchallenge/";
+    let path = "http://aramchallenge.com:8080/api/refreshchallenge/";
     try {
       const response = await axios.get(path + thisChallenge);
       setFetchStatus(true);
