@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Sidebar from "./Sidebar";
-import ChallengeTest from './Challenge';
+import ChallengeTest from './pages/Challenge';
 
 
 function App() {

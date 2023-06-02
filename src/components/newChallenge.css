@@ -1,7 +1,0 @@
-.input-field {
-    width: 300px; /* Määritä input-kentän leveys */
-    height: 40px; /* Määritä input-kentän korkeus */
-    font-size: 20px; /* Määritä fonttikoko */
-    text-align: center; /* Keskitä teksti vaakasuunnassa */
-    margin: 0 auto; /* Keskusta input-kenttä vaakasuunnassa */
-  }

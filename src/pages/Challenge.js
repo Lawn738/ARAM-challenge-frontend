@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./champion.css";
+import "../champion.css";
 
 const Challenge = () => {
   const [champions, setChampions] = useState([]);
@@ -105,7 +105,7 @@ const Challenge = () => {
 
   const filterInputChanged = (event) => {
     setFilterInput(event.target.value);
-    const filteredChampions = champions.filter((champion) => champion.name = (filterInput));
+    const filteredChampions = champions.filter((champion) => champion.name.toLowerCase().includes(filterInput.toLowerCase()));
     setChampions(filteredChampions);
   };
 
@@ -115,6 +115,7 @@ const Challenge = () => {
   };
 
   const resetFilter = () => {
+    setFilterInput("");
     setChampions(rawChampionData);
   };
 
@@ -126,10 +127,11 @@ const Challenge = () => {
           <p>Challenge not found. Check your challenge id.</p>
         }
       </div>
-      <input className="input-field" type="text" value={inputText} onChange={handleInputChange} />
-      <button onClick={() => fetchData()}>Fetch challenge</button> 
+      <input placeholder="Challenge id" className="input-field" type="text" value={inputText} onChange={handleInputChange} />
+      <button className="button" onClick={() => fetchData()}>Fetch challenge</button> 
       <div>
         {fetchStatus === true && 
+        <div>
         <div style={{display: "flex", flexDirection: 'row', marginRight: "20px", padding: "25px"}}>
           <div className="challenge-data-container">
             <h3>Challenge stats</h3>
@@ -147,35 +149,37 @@ const Challenge = () => {
             <p>Last refresh: {challengeStats.lastRefresh}</p>
          </div>
         </div>
-        }
-      </div>
-      <div style={{margin: "10px"}}>
-        <input label="Filter champions" type="text" value={filterInput} onChange={filterInputChanged} />
-        <button onClick={() => filterByWins()}>Filter by wins</button>
-        <button onClick={() => resetFilter()}>Reset filters</button>
+      <div style={{margin: "20px", border: "2px solid"}}>
+        <h4>Filter champions</h4>
+        <input placeholder="Champion" type="text" value={filterInput} onChange={filterInputChanged} />
+        <button className="button" onClick={() => resetFilter()}>Reset</button>
+        <button className="button" onClick={() => filterByWins()}>Filter out completed</button>
       </div>
       <div className="champion-grid">
         {champions.map((champion) => (
-          <div key={champion.id} className="champion-item">
+          <div key={champion.id} className={champion.wins > 0 ? ("champion-item2") : ("champion-item1")}>
             <div>
               {champion.wins > 0 ? (
                 <img
                     className="champion-image"
-                    src={require("./images/" + champion.name + ".png")}
+                    src={require("../images/" + champion.name + ".png")}
                     alt={champion.name}
                 />
               ) : (
                 <img
-                  src={require("./images/" + champion.name + ".png")}
+                  src={require("../images/" + champion.name + ".png")}
                   alt={champion.name}
                 />
               )}
             </div>
             <p>{champion.name}</p>
-            <p>Wins: {champion.wins}</p>
-            <p>Losses: {champion.losses}</p>
+            <div>Wins: {champion.wins}</div>
+            <div>Losses: {champion.losses}</div>
           </div>
         ))}
+      </div>
+      </div>
+        }
       </div>
     </div>
   );

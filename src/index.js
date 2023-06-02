@@ -4,11 +4,16 @@ import './index.css';
 import App from './App';
 
 
+
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // React.StrictMode fires everything twice on development environments
 //  <React.StrictMode>
-    <App />
+    <div>
+      <App />
+    </div>
 //  </React.StrictMode>
 );
 
