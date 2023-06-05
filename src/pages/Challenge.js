@@ -17,7 +17,7 @@ const Challenge = () => {
     totalWins: 0,
     totalLosses: 0,
     startDate: 0,
-    lastRefresh: 0,
+    lastRefresh: "",
   });
 
   //Fetch Challenge
@@ -33,8 +33,7 @@ const Challenge = () => {
         wins: champion.wins,
         losses: champion.losses,
         name: champion.name,
-      }));
-
+      }))
       // Update Challenge stats
       setChallengeStats(() => ({
         challenge_id: response.data.challenge_id,
@@ -42,10 +41,9 @@ const Challenge = () => {
         totalGames: response.data.totalGames,
         totalWins: response.data.totalWins,
         totalLosses: response.data.totalLosses,
-        startDate: new Date(response.data.startDate).toDateString(),
-        lastRefresh: new Date(response.data.startDate).toLocaleTimeString(),
+        startDate: new Date(response.data.startDate * 1000).toDateString(),
+        lastRefresh: new Date(response.data.lastRefresh * 1000).toLocaleTimeString(),
       }));
-
       setChampions(championObjects);
       setRawChampionData(championObjects);
       setThisChallenge(response.data.challenge_id);
@@ -82,10 +80,9 @@ const Challenge = () => {
         totalGames: response.data.totalGames,
         totalWins: response.data.totalWins,
         totalLosses: response.data.totalLosses,
-        startDate: new Date(response.data.startDate).toDateString(),
-        lastRefresh: new Date(response.data.startDate).toLocaleTimeString(),
+        startDate: new Date(response.data.startDate * 1000).toDateString(),
+        lastRefresh: new Date(response.data.lastRefresh * 1000).toLocaleTimeString(),
       }));
-
       setChampions(championObjects);
       setRawChampionData(championObjects);
 
@@ -106,15 +103,11 @@ const Challenge = () => {
 
   // Update filters
   const filterInputChanged = (event) => {
-    setFilterInput(event.target.value);
-    console.log(filterInput);
-    const filteredChampions = champions.filter((champion) =>
-      champion.name.toLowerCase().includes(filterInput.toLowerCase())
-    );
-    setChampions(filteredChampions);
+    setChampions(rawChampionData.filter((champion) =>
+    champion.name.toLowerCase().includes(event.target.value.toLowerCase())));
   };
 
-
+  // Filter list to only include champions with no wins
   const filterByWins = () => {
     const filteredChampions = champions.filter((champion) => champion.wins < 1);
     setChampions(filteredChampions);
@@ -173,7 +166,7 @@ const Challenge = () => {
               </div>
               <div className="challenge-data-container">
                 <p>Refresh challenge</p>
-                <button className="refresh-button"onClick={() => refreshChallenge()}>Refresh</button>
+                <button className="refresh-button"onClick={() => refreshChallenge()}><b>Refresh</b></button>
                 <p>Last refresh: {challengeStats.lastRefresh}</p>
               </div>
             </div>
@@ -181,6 +174,7 @@ const Challenge = () => {
               <h4>Filter champions</h4>
               <h4>{filterInput}</h4>
               <input
+                className="input-field"
                 placeholder="Champion"
                 type="text"
                 defaultValue={filterInput}

@@ -63,6 +63,16 @@
   margin: 10px;
 }
 
+.button2 {
+  background-color: rgb(141, 243, 163);
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 50px;
+  width: auto;
+  margin: 5px;
+}
+
 .input-field2 {
   width: 300px;
   height: 40px;

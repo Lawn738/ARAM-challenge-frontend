@@ -50,18 +50,19 @@ function NewChallenge() {
       {userData ? (
         <div>
           <div>
-            <p>User found</p>
-            <p>Username: {userData.name}</p>
-            <p>Summoner Level: {userData.summonerLevel}</p>
-            <button className="button" onClick={createNewChallenge}>
-              Create new challenge for: {userData.name}
+            <p><b>User found!</b></p>
+            <div>Username: <b>{userData.name}</b></div>
+            <div>Summoner Level: <b>{userData.summonerLevel}</b></div>
+            <button className="button2" onClick={createNewChallenge}>
+              Click here to create a new challenge for: {userData.name}
             </button>
             <p>Your challenge id is: <b>{challengeId}</b></p>
           </div>
           <div className="text-block-container">
             <div className="text-block">
               <h3>Creating a new challenge</h3>
-              <p>If your summoner name was correct, start your ARAM Challenge from the button above </p>
+              <p>If your summoner name was correct, start your ARAM Challenge from the button above. </p>
+              <p>After creating a new challenge, navigate to Challenge page from the left, and enter your challenge ID to see your challenge.</p>
               <p><b>Be sure to save your ARAM Challenge ID and not lose it.</b></p>
               <p>Recovering lost challenges is currently not possible.</p>
               <p>Be sure to come back and refresh your challenge from "Challenge" page regularly. This service can only fetch and track your 25 latest ARAM games at a time.</p>
