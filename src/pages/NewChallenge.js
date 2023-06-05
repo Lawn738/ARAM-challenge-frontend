@@ -13,7 +13,7 @@ function NewChallenge() {
   const fetchUserData = async () => {
     try {
       await axios
-        .get("http://localhost:8080/api/user/" + userInput)
+        .get("http://aramchallenge.com:8080/api/user/" + userInput)
         .then((res) => {
           if (res.data.name === null) {
             setFetchResponseStatus(false);
@@ -31,7 +31,7 @@ function NewChallenge() {
   const createNewChallenge = async () => {
     try {
       await axios
-      .get("http://localhost:8080/api/newchallenge/" + userData.name)
+      .get("http://aramchallenge.com:8080/api/newchallenge/" + userData.name)
       .then((res) => {
         setChallengeId(res.data.challenge_id);
       });
